@@ -1,0 +1,117 @@
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<base href="./">
+
+<link rel="stylesheet" type="text/css" href="css/common-vendor.b8ecfc406ac0b5f77a26.css">
+<link rel="stylesheet" type="text/css" href="css/font-vendor.b86e2bf451b246b1a88e.css">
+<link rel="stylesheet" type="text/css" href="css/fretboard.f32f2a8d5293869f0195.css">
+<link rel="stylesheet" type="text/css" href="css/pretty.0ae3265014f89d9850bf.css">
+<link rel="stylesheet" type="text/css" href="css/pretty-vendor.83ac49e057c3eac4fce3.css">
+<link rel="stylesheet" type="text/css" href="css/misc.css">
+<link rel="stylesheet" type="text/css" href="css/main.css">
+
+<script type="text/javascript" id="MathJax-script" async
+  src="scripts/mathjax.js">
+</script>
+
+<style>
+@font-face {
+    font-family: MJXc-TeX-math-Iw;
+    src: url("https://assets.hackmd.io/build/MathJax/fonts/HTML-CSS/TeX/woff/MathJax_Main-Regular.woff")
+}
+@font-face {
+    font-family: MJXZERO;
+    src: url("https://assets.hackmd.io/build/MathJax/fonts/HTML-CSS/TeX/woff/MathJax_Main-Regular.woff")
+}
+@font-face {
+    font-family: MJXTEX;
+    src: url("https://assets.hackmd.io/build/MathJax/fonts/HTML-CSS/TeX/woff/MathJax_Main-Regular.woff")
+}
+
+.math { font-family: MJXc-TeX-math-Iw }
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #1c1c1c;
+        color: white;
+    }
+    .markdown-body table tr {
+        background-color: #1c1c1c;
+    }
+    .markdown-body table tr:nth-child(2n) {
+        background-color: black;
+    }
+}
+html.light body {
+    background-color: #fff;
+    color: #333;
+}
+</style>
+
+<div id="doc" class="container-fluid markdown-body comment-enabled" data-hard-breaks="true">
+
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="trustlessness.eth" />
+<meta name="twitter:image" content="images/trustlessness-icon.png" />
+
+<div class="color-toggle" id="color-mode-switch">
+  <svg xmlns="http://www.w3.org/2000/svg" class="toggle-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+  </svg>
+  <input type="checkbox" id="switch" />
+  <label for="switch">Dark Mode Toggle</label>
+  <svg xmlns="http://www.w3.org/2000/svg" class="toggle-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+  </svg>
+</div>
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const root = document.documentElement;
+    const toggle = document.querySelector('#color-mode-switch input[type="checkbox"]');
+    if (!toggle) return;
+
+    const applyScheme = (mode) => {
+      if (mode === 'dark') {
+        root.classList.add('dark');
+        root.classList.remove('light');
+      } else {
+        root.classList.add('light');
+        root.classList.remove('dark');
+      }
+      localStorage.setItem('colorScheme', mode);
+    };
+
+    const stored = localStorage.getItem('colorScheme');
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const initialMode = stored || (prefersDark ? 'dark' : 'light');
+    applyScheme(initialMode);
+    toggle.checked = initialMode === 'dark';
+
+    toggle.addEventListener('change', () => {
+      applyScheme(toggle.checked ? 'dark' : 'light');
+    });
+  });
+</script>
+
+
+<div class="site-landing">
+  <img class="site-hero-logo" src="images/trustlessness-icon.png" alt="trustlessness.eth logo">
+  <h1 class="site-title-heading">trustlessness.eth</h1>
+  <p class="site-tagline">trustlessness.eth explores the values that make Ethereum unique: credible neutrality, self-custody, and verifiable execution. This is a space for people who still believe that trustlessness isn’t just a feature; it’s the point.</p>
+</div>
+
+
+<ul class="post-list">
+
+
+
+<li>
+    <span class="post-meta">2025 Nov 11</span>
+    <h3>
+      <a class="post-link" href="general/2025/11/11/the-trustless-manifesto.html">The Trustless Manifesto</a>
+    </h3>
+</li>
+
+ </ul> 
