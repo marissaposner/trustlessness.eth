@@ -78,6 +78,41 @@
   transition: 0.3s;
 }
 
+#pledge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  margin-top: 16px;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  border: 2px solid rgba(255, 215, 64, 0.7);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(255, 215, 64, 0.95), rgba(255, 170, 51, 0.85));
+  color: #1b1300;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  text-decoration: none;
+}
+
+#pledge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px rgba(255, 170, 51, 0.35);
+  border-color: rgba(255, 215, 64, 1);
+}
+
+#pledge:active {
+  transform: translateY(1px);
+  box-shadow: 0 5px 14px rgba(255, 170, 51, 0.25);
+}
+
+.pledge-status {
+  margin-top: 0.75rem;
+  font-size: 16px;
+  color: rgba(255, 215, 64, 0.85);
+}
+
 .color-toggle input:checked + label::after {
   left: calc(100% - 3px);
   transform: translateX(-100%);

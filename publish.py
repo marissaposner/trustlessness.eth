@@ -7,16 +7,16 @@ HEADER_TEMPLATE = Template("""
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <base href="${base}">
 
-<link rel="stylesheet" type="text/css" href="${prefix}css/common-vendor.b8ecfc406ac0b5f77a26.css">
-<link rel="stylesheet" type="text/css" href="${prefix}css/font-vendor.b86e2bf451b246b1a88e.css">
-<link rel="stylesheet" type="text/css" href="${prefix}css/fretboard.f32f2a8d5293869f0195.css">
-<link rel="stylesheet" type="text/css" href="${prefix}css/pretty.0ae3265014f89d9850bf.css">
-<link rel="stylesheet" type="text/css" href="${prefix}css/pretty-vendor.83ac49e057c3eac4fce3.css">
-<link rel="stylesheet" type="text/css" href="${prefix}css/misc.css">
-<link rel="stylesheet" type="text/css" href="${prefix}css/main.css">
+<link rel="stylesheet" type="text/css" href="css/common-vendor.b8ecfc406ac0b5f77a26.css">
+<link rel="stylesheet" type="text/css" href="css/font-vendor.b86e2bf451b246b1a88e.css">
+<link rel="stylesheet" type="text/css" href="css/fretboard.f32f2a8d5293869f0195.css">
+<link rel="stylesheet" type="text/css" href="css/pretty.0ae3265014f89d9850bf.css">
+<link rel="stylesheet" type="text/css" href="css/pretty-vendor.83ac49e057c3eac4fce3.css">
+<link rel="stylesheet" type="text/css" href="css/misc.css">
+<link rel="stylesheet" type="text/css" href="css/main.css">
 
 <script type="text/javascript" id="MathJax-script" async
-  src="${prefix}scripts/mathjax.js">
+  src="scripts/mathjax.js">
 </script>
 
 <style>
@@ -106,7 +106,7 @@ def render_toggle(prefix):
 
 HERO_TEMPLATE = Template("""
 <div class="site-landing">
-  <img class="site-hero-logo" src="${prefix}${icon}" alt="${title} logo">
+  <img class="site-hero-logo" src="${icon}" alt="${title} logo">
   <h1 class="site-title-heading">${title}</h1>
   <p class="site-tagline">${tagline}</p>
 </div>
@@ -179,11 +179,10 @@ def make_toc_item(metadata):
     return TOC_ITEM_TEMPLATE.format(year+' '+month+' '+day, link, metadata['title'])
 
 
-def compute_prefix(path):
+def compute_base(path):
     depth = path.count('/')
-    prefix = '../' * depth
-    base = prefix if prefix else './'
-    return prefix, base
+    base = ('../' * depth) or './'
+    return base
 
 if __name__ == '__main__':
     # Get blog config
@@ -215,13 +214,13 @@ if __name__ == '__main__':
         options = metadata.get('pandoc', '')
         
         os.system('pandoc -o /tmp/temp_output.html {} {}'.format(file_location, options))
-        prefix, base = compute_prefix(path)
-        header = HEADER_TEMPLATE.substitute(prefix=prefix, base=base)
-        icon_path = prefix + global_config['icon']
+        base = compute_base(path)
+        header = HEADER_TEMPLATE.substitute(base=base)
+        icon_path = global_config['icon']
         total_file_contents = (
             header +
             make_twitter_card(metadata['title'], icon_path) +
-            render_toggle(prefix) +
+            render_toggle(base) +
             defancify(open('/tmp/temp_output.html').read()) +
             FOOTER
         )
@@ -238,14 +237,14 @@ if __name__ == '__main__':
     sorted_metadatas = sorted(metadatas, key=lambda x: x['date'], reverse=True)
     toc_items = [make_toc_item(metadata) for metadata in sorted_metadatas]
 
-    index_prefix, index_base = compute_prefix('index.html')
-    header_index = HEADER_TEMPLATE.substitute(prefix=index_prefix, base=index_base)
-    icon_path_index = index_prefix + global_config['icon']
+    index_base = compute_base('index.html')
+    header_index = HEADER_TEMPLATE.substitute(base=index_base)
+    icon_path_index = global_config['icon']
     toc = (
         header_index +
         make_twitter_card(global_config['title'], icon_path_index) +
-        render_toggle(index_prefix) +
-        HERO_TEMPLATE.substitute(title=global_config['title'], icon=global_config['icon'], tagline=TAGLINE, prefix=index_prefix) +
+        render_toggle(index_base) +
+        HERO_TEMPLATE.substitute(title=global_config['title'], icon=global_config['icon'], tagline=TAGLINE) +
         TOC_HEADER +
         ''.join(toc_items) +
         TOC_FOOTER

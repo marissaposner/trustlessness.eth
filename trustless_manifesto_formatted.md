@@ -1,9 +1,4 @@
-[category]: <> (general)
-[date]: <> (2025/11/11)
-[title]: <> (The Trustless Manifesto)
-[filename]: <> (the-trustless-manifesto.html)
-
-# The Trustless Manifesto
+The Trustless Manifesto
 
 **Authors: Yoav Weiss, Vitalik Buterin, Marissa Posner**
 
@@ -78,12 +73,10 @@ A trustless design must therefore obey three laws:
 
 1. **No critical secrets.**  
    No step of a protocol should depend on private information held by a single actor — except the user themselves.
-
 2. **No indispensable intermediaries.**  
    Anyone who forwards, executes, or attests must be replaceable by any other participant following the same rules.  
    “Anyone can run one” is not enough — participation must be *practically* open, not reserved for those with servers, funding, and DevOps skills.  
    A system that depends on intermediaries most users cannot realistically replace is not trustless; it merely concentrates trust in the hands of a smaller class of operators.
-
 3. **No unverifiable outcomes.**  
    Every effect on state must be reproducible and checkable from public data.
 
@@ -125,7 +118,7 @@ Users may choose convenience — a hosted node, a friendly UI, a service that he
 
 If inclusion requires an intermediary, it is not trustless.  
 If that intermediary must be trusted, it is not neutral.  
-If users can “theoretically” run their own intermediary but in practice never will, the system has replaced permissionless access with *technical gatekeeping.*
+If users can “theoretically” run their own intermediary but in practice never will, the system has replaced permissionless access with *technical gatekeeping*.
 
 A permissionless protocol must not only be *open in code*, but *open in cost, accessibility, and comprehension.*
 
@@ -202,102 +195,3 @@ Everything else is construction on top of it.
 
 The designs will change. The principles will not.
 
-<h2>Sign the Trustless Manifesto</h2>
-<p>
-  By signing this pledge, you affirm your commitment to building and using systems
-  that preserve <strong>trustlessness</strong> - systems where correctness and fairness
-  depend only on math and consensus, not intermediaries.
-  <br><br>
-  Your signature will be recorded <strong>on Ethereum mainnet</strong> in the
-  <a href="https://etherscan.io/address/0x32aa964746ba2be65c71fe4a5cb3c4a023ca3e20" target="_blank">Trustless Manifesto contract</a>.
-</p>
-
-<button id="pledge">Sign the Trustless Manifesto Pledge</button>
-<p id="status" class="pledge-status"></p>
-
-<script type="module">
-import { ethers } from "https://cdn.jsdelivr.net/npm/ethers@6.12.0/dist/ethers.min.js";
-
-const addr = "0x32AA964746ba2be65C71fe4A5cB3c4a023cA3e20";
-const abi = [
-  "function pledge()",
-  "event Pledged(address indexed signer)"
-];
-
-const targetChainId = "0x1"; // Ethereum mainnet
-
-const resolveEthereumProvider = () => {
-  const { ethereum } = window;
-  if (!ethereum) return null;
-  if (ethereum.providers?.length) {
-    const metamask = ethereum.providers.find((p) => p.isMetaMask);
-    return metamask ?? ethereum.providers[0];
-  }
-  return ethereum;
-};
-
-const ensureMainnet = async (provider) => {
-  try {
-    await provider.send("wallet_switchEthereumChain", [{ chainId: targetChainId }]);
-  } catch (err) {
-    // Unrecognized chain; attempt to add mainnet for wallets that require it.
-    if (err?.code === 4902) {
-      await provider.send("wallet_addEthereumChain", [{
-        chainId: targetChainId,
-        chainName: "Ethereum Mainnet",
-        nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
-        rpcUrls: ["https://rpc.ankr.com/eth"]
-      }]);
-    } else {
-      throw err;
-    }
-  }
-};
-
-const formatError = (err) => {
-  if (!err) return "Transaction failed or rejected.";
-  if (err.code === 4001) return "Request was rejected in your wallet.";
-  if (typeof err.message === "string") return err.message;
-  return "Something went wrong. Please try again.";
-};
-
-document.getElementById("pledge").addEventListener("click", async () => {
-  const status = document.getElementById("status");
-
-  try {
-    const ethereum = resolveEthereumProvider();
-    if (!ethereum) {
-      status.textContent = "Open this page in a Web3-enabled browser (e.g. MetaMask, Rainbow, Coinbase Wallet) to sign.";
-      return;
-    }
-
-    const provider = new ethers.BrowserProvider(ethereum);
-    await provider.send("eth_requestAccounts", []);
-    await ensureMainnet(provider);
-
-    const signer = await provider.getSigner();
-    const address = await signer.getAddress();
-    const contract = new ethers.Contract(addr, abi, signer);
-
-    status.textContent = "Submitting your pledge...";
-    const tx = await contract.pledge();
-    await tx.wait();
-
-    status.innerHTML = `
-      <div style="color: #b8860b;">
-        ✅ <strong>Your pledge is now part of Ethereum mainnet.</strong><br>
-        <em>You have joined the trustless movement — permanently and publicly.</em><br><br>
-        (${address.slice(0, 6)}... confirmed)
-      </div>
-      <div style="margin-top: 0.75rem;">
-        <a href="https://etherscan.io/tx/${tx.hash}" target="_blank" rel="noopener noreferrer">
-          View your transaction on Etherscan
-        </a>
-      </div>
-    `;
-  } catch (err) {
-    console.error(err);
-    status.textContent = formatError(err);
-  }
-});
-</script>
